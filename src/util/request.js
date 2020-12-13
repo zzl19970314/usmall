@@ -150,10 +150,18 @@ export const requserDel = (id) => {
 
 // 管理员总数
 export const requserCount = () => {
-    return axios({
-        url: baseUrl + '/api/usercount',
-        method: 'get',
+        return axios({
+            url: baseUrl + '/api/usercount',
+            method: 'get',
 
+        })
+    }
+    // 管理员登录
+export const requserLogin = (data) => {
+    return axios({
+        url: baseUrl + '/api/userlogin',
+        method: 'post',
+        data: data
     })
 }
 
@@ -212,5 +220,230 @@ export const reqcateDel = (id) => {
         url: baseUrl + '/api/catedelete',
         method: 'post',
         data: id
+    })
+}
+
+//////////////////////////商品规格管理///////////////////////////////////
+// 商品规格添加
+export const reqspecsAdd = (data) => {
+        return axios({
+            url: baseUrl + '/api/specsadd',
+            method: 'post',
+            data: data
+        })
+    }
+    // 商品规格列表
+export const reqspecsList = (params) => {
+    return axios({
+        url: baseUrl + '/api/specslist',
+        method: 'get',
+        params: params
+    })
+}
+
+// 商品规格一条数据
+export const reqspecsListOne = (id) => {
+    return axios({
+        url: baseUrl + '/api/specsinfo',
+        method: 'get',
+        params: id
+    })
+}
+
+// 商品规格编辑
+export const reqspecsEdit = (data) => {
+
+    return axios({
+        url: baseUrl + '/api/specsedit',
+        method: 'post',
+        data: data
+    })
+}
+
+// 商品规格删除
+export const reqspecsDel = (id) => {
+        return axios({
+            url: baseUrl + '/api/specsdelete',
+            method: 'post',
+            data: id
+        })
+    }
+    //////////////////////////商品管理///////////////////////////////////
+    // 商品管理添加
+export const reqgoodsAdd = (data) => {
+        //由于上传的是文件 所以需用qs转一下
+        var form = new FormData()
+        for (var i in data) {
+            form.append(i, data[i])
+        }
+        return axios({
+            url: baseUrl + '/api/goodsadd',
+            method: 'post',
+            data: form
+        })
+    }
+    // 商品管理列表
+export const reqgoodsList = (params) => {
+    return axios({
+        url: baseUrl + '/api/goodslist',
+        method: 'get',
+        params: params
+    })
+}
+
+// 商品管理一条数据
+export const reqgoodsListOne = (id) => {
+    return axios({
+        url: baseUrl + '/api/goodsinfo',
+        method: 'get',
+        params: id
+    })
+}
+
+// 商品管理编辑
+export const reqgoodsEdit = (data) => {
+
+    return axios({
+        url: baseUrl + '/api/goodsedit',
+        method: 'post',
+        data: form
+    })
+}
+
+// 商品管理删除
+export const reqgoodsDel = (id) => {
+    return axios({
+        url: baseUrl + '/api/goodsdelete',
+        method: 'post',
+        data: id
+    })
+}
+
+
+//////////////////////////会员管理///////////////////////////////////
+//会员列表
+export const reqmemberList = () => {
+    return axios({
+        url: baseUrl + '/api/memberlist',
+        method: 'get',
+
+    })
+}
+
+//会员一条数据
+export const reqmemberListOne = (id) => {
+    return axios({
+        url: baseUrl + '/api/memberinfo',
+        method: 'get',
+        params: id
+    })
+}
+
+//会员编辑
+export const reqmemberEdit = (id) => {
+    return axios({
+        url: baseUrl + '/api/memberedit',
+        method: 'post',
+        data: id
+    })
+}
+
+
+//////////////////////////轮播图///////////////////////////////////
+// 轮播图添加
+export const reqbannerAdd = (data) => {
+        //由于上传的是文件 所以需用qs转一下
+        var form = new FormData()
+        for (var i in data) {
+            form.append(i, data[i])
+        }
+        return axios({
+            url: baseUrl + '/api/banneradd',
+            method: 'post',
+            data: form
+        })
+    }
+    // 轮播图列表
+export const reqbannerList = (params) => {
+    return axios({
+        url: baseUrl + '/api/bannerlist',
+        method: 'get',
+        params: params
+    })
+}
+
+// 轮播图一条数据
+export const reqbannerListOne = (id) => {
+    return axios({
+        url: baseUrl + '/api/bannerinfo',
+        method: 'get',
+        params: id
+    })
+}
+
+// 轮播图编辑
+export const reqbannerEdit = (data) => {
+
+    return axios({
+        url: baseUrl + '/api/banneredit',
+        method: 'post',
+        data: form
+    })
+}
+
+// 轮播图删除
+export const reqbannerDel = (id) => {
+    return axios({
+        url: baseUrl + '/api/bannerdelete',
+        method: 'post',
+        data: id
+    })
+}
+
+
+// 秒杀模块的请求
+//秒杀添加
+export const reqseckAdd = (data) => {
+        return axios({
+            url: baseUrl + '/api/seckadd',
+            method: 'post',
+            data: data
+        })
+    }
+    //秒杀列表
+export const reqseckList = (data) => {
+    return axios({
+        url: baseUrl + '/api/secklist',
+        method: 'get',
+        params: data
+    })
+}
+
+// 获取一条数据
+//秒杀列表
+export const reqseckListOne = (data) => {
+    return axios({
+        url: baseUrl + '/api/seckinfo',
+        method: 'get',
+        params: data
+    })
+}
+
+
+//秒杀编辑
+export const reqseckEdit = (data) => {
+    return axios({
+        url: baseUrl + '/api/seckedit',
+        method: 'post',
+        data: data
+    })
+}
+
+//秒杀删除
+export const reqseckDel = (data) => {
+    return axios({
+        url: baseUrl + '/api/seckdelete',
+        method: 'post',
+        data: data
     })
 }

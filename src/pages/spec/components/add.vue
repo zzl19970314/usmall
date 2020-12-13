@@ -3,12 +3,14 @@
     <el-dialog :title="info.title" :visible.sync="info.isShow">
       <el-form :model="form">
         <el-form-item label="规格名称" :label-width="width">
-          <el-input v-model="form.catename" autocomplete="off"></el-input>
+          <el-input v-model="form.specsname" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="规格属性" :label-width="width">
+        <el-form-item label="规格属性" :label-width="width"
+        v-for="(item,index) in arrAttr" :key="index">
           <el-row>
-            <el-col span="18"><el-input v-model="form.catename" autocomplete="off"></el-input></el-col>
-            <el-col span="4"><el-button type="primary">新增规格属性</el-button></el-col>
+            <el-col :span="18"><el-input v-model="item.value" autocomplete="off"></el-input></el-col>
+            <el-col :span="6"><el-button type="primary" v-if="index==0" @click="addAttr">新增规格属性</el-button>
+             <el-button type="danger" v-else @click="delAttr(index)">删除</el-button></el-col>
           </el-row>
         </el-form-item>
         
@@ -35,49 +37,50 @@
 </template>
 <script>
 import { mapActions, mapGetters } from "vuex";
-import { reqcateAdd,reqcateListOne,reqcateEdit } from "../../../util/request";
+import { reqspecsAdd,reqspecsListOne,reqspecsEdit } from "../../../util/request";
 export default {
   props: ["info"],
   computed: {
     ...mapGetters({
-      cateList: "cate/list",
+      // cateList: "cate/list",
     }),
   },
   components: {},
   data() {
     return {
       width: "160px",
-      imageUrl: "",
       // isShow: true,
       form: {
-        pid: "",
-        catename: "",
-        img: null,
+        specsname:"",
+        attrs:"",
         status: 1,
       },
 
-      defaultProps: {
-        children: "children",
-        label: "label",
-      },
+    arrAttr:[{
+      value:"",
+    }]
     };
   },
   methods: {
-    //   上传图片
-    changeImg(e) {
-      console.log(e); //这是获取到的文件也就是上传的那张图片
-      var file = e.raw;
-      this.imageUrl = URL.createObjectURL(file);
-      console.log(this.imageUrl);
-      this.form.img = file;
+    // 新增属性
+    addAttr() {
+        this.arrAttr.push({
+            value:''
+        })
     },
+    // 删除属性
+    delAttr(index){
+        this.arrAttr.splice(index,1)
+    },
+    ...mapActions({
+      requestcateList: "cate/requestcateList",
+    }),
 
     // 重置
     empty() {
       this.form = {
-        pid: "",
-        catename: "",
-        img: null,
+        specsname: "",
+        attrs:"",
         status: 1,
       };
     },
@@ -87,24 +90,26 @@ export default {
     },
     //添加
     add() {
-      reqcateAdd(this.form).then((res) => {
+        this.form.attrs=JSON.stringify(this.arrAttr.map(item=>{return item.value})) 
+        // console.log(this.arrAttr.map(item=>{return item.value}))
+      reqspecsAdd(this.form).then((res) => {
         this.empty();
         this.hide();
       });
     },
-
     ...mapActions({
       requestcateList: "cate/requestcateList",
     }),
     // 获取一条数据
     look(id) {
         reqcateListOne({ id: id }).then((res) => {
-          this.form = res.data.list;
-          this.form.id = id;
-          this.imageUrl = this.$preImg+res.data.list.img
+          this.form = res.data.list[0];
+          this.form.id=id;
+          console.log(this.form);
+          this.arrAttr=JSON.parse(this.form.attrs).map(item=>{return {value:item}})
         });
     },
-    update() {
+    update() {this.form.attrs=JSON.stringify(this.arrAttr.map(item=>{return item.value}))
         reqcateEdit(this.form).then((res) => {
           this.requestcateList();
           this.hide()
